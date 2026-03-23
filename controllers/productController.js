@@ -26,6 +26,28 @@ async function fetchProductById(req, res) {
     }
 }
 
+async function fetchProductsByType(req, res) {
+    const type = req.params.type;
+    const price = req.query.price;
+    let params;
+    if (type) {
+        try {
+            params = [type];
+            if (price) {
+                params.push(price);
+            }
+            const products = await model.getProductsByType(params);
+            res.json(products);
+        }
+        catch (err) {
+            console.error(err);
+            res.status(500).send("Server error");
+        }
+    } else {
+        res.status(400).send("Missing required type param!");
+    }
+}
+
 async function removeProduct(req, res) {
     const id = req.params.id;
     if (id) {
@@ -63,6 +85,7 @@ async function createProduct(req, res) {
 module.exports = {
     fetchAllProducts,
     fetchProductById,
+    fetchProductsByType,
     removeProduct,
     createProduct
 };

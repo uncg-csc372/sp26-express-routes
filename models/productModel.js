@@ -14,6 +14,15 @@ async function getOneProductById(id) {
     return result.rows[0];
 }
 
+async function getProductsByType(params) {
+    const queryText = "SELECT * FROM products where type= $1";
+    if (params.length > 1) {
+        queryText += " AND price <= $2";
+    }
+    const result = await pool.query(queryText, params);
+    return result.rows;
+}
+
 
 async function deleteProduct(id) {
     let queryText = "DELETE FROM products WHERE id = $1 ";
@@ -31,6 +40,7 @@ async function addProduct(name, type, price, description) {
 module.exports = {
     getAllProducts,
     getOneProductById,
+    getProductsByType,
     deleteProduct,
     addProduct
 };
