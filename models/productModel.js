@@ -1,5 +1,5 @@
 "use strict";
-const pool = require('../models/dbConnection');
+const pool = require('./dbConnection');
 
 async function getAllProducts() {
     const queryText = "SELECT * FROM products";

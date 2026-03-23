@@ -1,4 +1,4 @@
-const pool = require('../models/dbConnection');
+const pool = require('./dbConnection');
 async function getAllUsers() {
     const queryText = "SELECT * FROM users";
     const result = await pool.query(queryText);
