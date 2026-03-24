@@ -12,8 +12,8 @@ app.use(express.static("public"));
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-app.use('/products', productRoutes);
-app.use('/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
