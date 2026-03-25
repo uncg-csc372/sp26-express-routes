@@ -17,14 +17,10 @@
                                     <h3>
                                         <%= prod.id %>: <%= prod.name %>
                                     </h3>
-                                    <p>
-                                        <%= prod.type %>
-                                    </p>
+                                    <a href="/products/type/<%=prod.type%>"><%= prod.type %></a>
                                     <p>Description: <%= prod.description %>
                                     </p>
-                                    <form style="display: inline" action="/products/<%= prod.id %>" method="get">
-                                        <button class="inner-button">View</button>
-                                    </form>
+                                    <a class="inner-button" href="/products/<%= prod.id %>"> View Details</a>
                                     <button class="delete-prod" id="<%= prod.id %>">Delete Product</button>
                                 </div>
                             </article>

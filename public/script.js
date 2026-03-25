@@ -35,10 +35,14 @@
             },
             body: jsonBody,
         })
-            .then(() => {
-                window.location.href = '/products';  // Redirect to products list after creation
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
             })
-
+            .then((newProduct) => {
+                window.location.href = `/products/${newProduct.id}`;
+            })
             .catch(alert);
     }
 
@@ -46,7 +50,6 @@
     for (let index = 0; index < deleteButtons.length; index++) {
         const element = deleteButtons[index];
         element.addEventListener("click", function (e) {
-            let myId = e.currentTarget.getAttribute("id");
             deleteProduct(e.currentTarget.getAttribute("id"));
         });
 

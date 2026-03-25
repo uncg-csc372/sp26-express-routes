@@ -8,13 +8,14 @@
             <%- include('./partials/new-product-form') %>
                 <h1> Product #<%=prod.id %>
                 </h1>
-                <div id="root">ks
+                <div id="root">
                     <div class="card-holder">
                         <h3>
                             <%= prod.name %>
                         </h3>
-                        <p>Type: <%=prod.type %>
-                        </p>
+                        <a href="/products/type/<%=prod.type%>">
+                            <%= prod.type %>
+                        </a>
                         <p>Price: <%=prod.price %>
                         </p>
                         <p>Description: <%=prod.description %>

@@ -73,6 +73,12 @@ li a:hover:not(.active) {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    margin: 5px;
+}
+
+a.inner-button {
+    text-decoration: none;
+    color: white;
 }
 
 .inner-button:hover {
