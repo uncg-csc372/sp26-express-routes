@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import ProductsService from '../ProductsService';
 import '../index.css';
-import { Link } from 'react-router-dom';
+import { Link , useParams} from 'react-router-dom';
 
 
 const ProductsListComponent = () => {
+  const { type } = useParams("type");
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-
-    ProductsService.getProducts().then((res) => {
-      setProducts(res.data);
-      document.title = 'Products List';
-    });
-
-
-
+    if (type) {
+      ProductsService.getProductsByType(type).then((res) => {
+        setProducts(res.data);
+        document.title = `Products of type ${type}`;
+      });
+    } else {
+      ProductsService.getProducts().then((res) => {
+        setProducts(res.data);
+        document.title = 'Products List';
+      });
+    }
   }, []);
 
   return (
