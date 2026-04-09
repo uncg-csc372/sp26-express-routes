@@ -12,7 +12,7 @@ Add environment variables for the backend and frontend:
       ```
     - Create a `.env` file in the `react-frontend-client` directory with the following content:
       ```
-      VITE_BACKEND_URL=http://localhost:3000
+      VITE_API_URL=http://localhost:3000/api/products
       ```
 2. Install dependencies for both the backend and frontend:
     - For the backend:
