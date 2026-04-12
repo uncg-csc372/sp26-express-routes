@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ProductsService from '../ProductsService';
 import '../index.css';
-import { Link , useParams} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 
 const ProductsListComponent = () => {
-  const { type } = useParams("type");
+  const { type } = useParams();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -20,11 +20,12 @@ const ProductsListComponent = () => {
         document.title = 'Products List';
       });
     }
-  }, []);
+  }, [type]);
 
   return (
     <div>
-      <h2 className="text-center">Products List</h2>
+      <h2 className="text-center">{type ? type + ' List': 'Products List'}</h2>
+      {type && <Link to="/products" className="card-link">Product List</Link>}
       <div className="row">
         <Link to="/add-product" className="btn btn-outline-primary">Add Product</Link>
       </div>
@@ -38,6 +39,7 @@ const ProductsListComponent = () => {
               <p>${product.price}</p>
               <p>Type: {product.type}</p>
               <p>Description: {product.description}</p>
+              <p><Link to={`/products/type/${product.type}`}>{product.type}</Link></p>
               <p><Link className="detail-button" to={`/products/${product.id}`}>View</Link></p>
               <button className="delete-button" onClick={() => ProductsService.deleteProduct(product.id)
                 .then(() => setProducts(products.filter(p => p.id !== product.id)))}>Delete</button>
