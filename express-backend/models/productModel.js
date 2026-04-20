@@ -15,7 +15,7 @@ async function getOneProductById(id) {
 }
 
 async function getProductsByType(params) {
-    const queryText = "SELECT * FROM products where type= $1";
+    let queryText = "SELECT * FROM products where type= $1";
     if (params.length > 1) {
         queryText += " AND price <= $2";
     }
