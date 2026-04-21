@@ -7,12 +7,14 @@ Demo node/express with routes and a React frontend client.
 Add environment variables for the backend and frontend:
     - Create a `.env` file in the `express-backend` directory with the following content:
       ```
-      PORT=3000
-      DATABASE_URL=YOUR_DATABASE_URL_HERE
+      DATABASE_URL='YOUR_DATABASE_URL_HERE'
+      CLIENT_BASE_URL='http://localhost:5173'
+      clientID='client-id-from-google-console'
+      clientSecret='client-secret-from google-console'
       ```
     - Create a `.env` file in the `react-frontend-client` directory with the following content:
       ```
-      VITE_API_URL=http://localhost:3000/api/products
+      VITE_API_URL=http://localhost:3000
       ```
 2. Install dependencies for both the backend and frontend:
     - For the backend:
