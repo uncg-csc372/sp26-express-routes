@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PRODUCTS_API_BASE_URL = import.meta.env.VITE_API_URL;
+const PRODUCTS_API_BASE_URL = import.meta.env.VITE_API_URL + '/products' || 'http://localhost:3000/products';
 
 class ProductsService {
   getProducts() {
