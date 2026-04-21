@@ -22,7 +22,6 @@ app.use(passport.session());
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
-app.use('/auth', require('./auth/authRoute'));
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
