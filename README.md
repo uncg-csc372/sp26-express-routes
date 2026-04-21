@@ -30,11 +30,11 @@ Add environment variables for the backend and frontend:
 3. Start the backend server:
     ```bash
     cd express-backend
-    npm start
+    node server.js
     ```
 4. In a separate terminal, start the frontend development server:
     ```bash
     cd react-frontend-client
-    npm start
+    npm run dev
     ```
 5. Open your browser and navigate to `http://localhost:5173` to view the application.
