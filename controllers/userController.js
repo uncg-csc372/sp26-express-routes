@@ -1,5 +1,5 @@
 "use strict";
-const model = require('../models/userModel');
+import model from '../models/userModel.js';
 async function fetchAllUsers(req, res) {
     try {
         const users = await model.getAllUsers();
@@ -7,7 +7,7 @@ async function fetchAllUsers(req, res) {
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error");
-    }   
+    }
 }
 
 async function fetchUserById(req, res) {
@@ -22,14 +22,14 @@ async function fetchUserById(req, res) {
         }
     } else {
         res.status(400).send("Missing required id param!");
-    }   
+    }
 }
 
 async function removeUser(req, res) {
     const id = req.params.id;
     if (id) {
         try {
-            const deletedCount = await model.deleteUser(id);    
+            const deletedCount = await model.deleteUser(id);
             if (deletedCount > 0) {
                 res.send(`User with id ${id} deleted successfully.`);
             } else {
@@ -45,7 +45,7 @@ async function removeUser(req, res) {
 }
 
 async function createUser(req, res) {
-    const { name, email, password } = req.body; 
+    const { name, email, password } = req.body;
     if (name && email && password) {
         try {
             const newUser = await model.addUser(name, email, password);
@@ -59,7 +59,7 @@ async function createUser(req, res) {
     }
 }
 
-module.exports = {
+export default{
     fetchAllUsers,
     fetchUserById,
     removeUser,

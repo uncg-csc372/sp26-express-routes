@@ -1,32 +1,39 @@
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { compare } from 'bcrypt';
+import model from '../models/userModel.js';
 
-const userModel = require('../models/userModel');
+passport.use(new LocalStrategy({
+  usernameField: 'email', // uses 'email' instead of 'username' from the form
+  passwordField: 'password'
+}, async (email, password, done) => {
+  try {
+    const user = await model.getOneUserByEmail(email);
+    if (!user) {
+      return done(null, false, { message: 'Incorrect email.' });
+    }
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.clientID,
-  clientSecret: process.env.clientSecret,
-  callbackURL: '/auth/google/callback'
-}, async (token, tokenSecret, profile, done) => {
+    // Compare hashed password from DB with plain text from form
+    const isMatch = await compare(password, user.hashedpassword);
+    if (!isMatch) {
+      return done(null, false, { message: 'Incorrect password.' });
+    }
 
-  const newUser = {
-    googleId: profile.id,
-    displayName: profile.displayName,
-    firstName: profile.name.givenName,
-    lastName: profile.name.familyName,
-    email: profile.emails[0].value
+    return done(null, user);
+  } catch (err) {
+    return done(err);
   }
-  const user = await userModel.getUserById(profile.id);
-  if (!user) {
-    userModel.createNewUser(Object.values(newUser));
-  }
-  return done(null, profile);
 }));
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id); // Store only the ID in the session
 });
 
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await model.getOneUserById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });

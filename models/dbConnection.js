@@ -1,5 +1,5 @@
-require('dotenv').config();
-const { Pool } = require('pg');
+import 'dotenv/config';
+import { Pool } from 'pg';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
@@ -10,11 +10,10 @@ const createUsersTable = async () => {
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
-            googleId VARCHAR(255) UNIQUE NOT NULL,
-            displayName VARCHAR(255),
             firstName VARCHAR(255),
             lastName VARCHAR(255),
             email VARCHAR(255) UNIQUE NOT NULL,
+            hashedpassword VARCHAR(255) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     `;
@@ -30,4 +29,4 @@ const createUsersTable = async () => {
 // Run table creation on module load
 createUsersTable();
 
-module.exports = pool;
+export default pool;

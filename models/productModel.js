@@ -1,5 +1,4 @@
-"use strict";
-const pool = require('./dbConnection');
+import pool from './dbConnection.js';
 
 async function getAllProducts() {
     const queryText = "SELECT * FROM products";
@@ -37,7 +36,7 @@ async function addProduct(name, type, price, description) {
     const result = await pool.query(queryText, values);
     return result.rows[0];
 }
-module.exports = {
+export default {
     getAllProducts,
     getOneProductById,
     getProductsByType,

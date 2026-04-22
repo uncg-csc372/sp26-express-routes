@@ -1,17 +1,19 @@
 "use strict";
-const express = require("express");
+import express from 'express';
 const app = express();
-require('dotenv').config();
 
-const multer = require("multer");
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
 app.use(multer().none());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-const session = require('express-session');
-const passport = require('passport');
-require('./auth/passport');
+import session from 'express-session';
+import passport from 'passport';
+
+import './auth/passport.js';
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
@@ -20,15 +22,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const productRoutes = require('./routes/productRoutes');
-const userRoutes = require('./routes/userRoutes');
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+import  productRoutes from './routes/productRoutes.js'
+import  userAppRoutes from './routes/userRoutes.js';
+import authRoutes from './auth/authRoute.js';
 
 app.use('/products', productRoutes);
-app.use('/users', userRoutes);
-app.use('/auth', require('./auth/authRoute'));
+app.use('/users', userAppRoutes);
+app.use('/auth', authRoutes);
 
 
 //Home Page no auth needed

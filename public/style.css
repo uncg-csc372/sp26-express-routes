@@ -149,3 +149,16 @@ a.inner-button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+#signup-form, #login-form {
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: var(--spacing-lg);
+  max-width: 500px;
+  margin:auto;
+  width: 100%;
+  border: 2px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+}

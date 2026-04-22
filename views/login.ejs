@@ -8,9 +8,13 @@
 
 <body>
   <div class="login-container">
-    <div class="google-logo"></div>
-    <h1>Login with Google</h1>
-    <a href="/auth/google"><button class="btn">Login with Google</button></a>
+    <h1>Login </h1>
+    <form id="login-form" action="/auth/login" method="POST">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/auth/register">Register here</a></p>
   </div>
 </body>
 

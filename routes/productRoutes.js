@@ -1,7 +1,8 @@
 "use strict";
-const express = require("express");
-const router = express.Router();
-const productController = require('../controllers/productController');
+import { Router } from "express";
+const router = Router();
+import productController from '../controllers/productController.js';
+
 
 router.get("/", ensureAuth, productController.fetchAllProducts);
 router.get("/:id", ensureAuth, productController.fetchProductById);
@@ -11,11 +12,16 @@ router.delete("/:id", ensureAuth, productController.removeProduct);
 
 
 function ensureAuth(req, res, next) {
-  req.session.returnTo = req.originalUrl;
-  if (!req.isAuthenticated()) {
-    return res.redirect('/auth/login');
+  if (req.isAuthenticated()) {
+    return next();
   }
-  next();
+
+  // Only save the return URL for GET requests (navigating to pages)
+  if (req.method === 'GET') {
+    req.session.returnTo = req.originalUrl;
+  }
+
+  res.redirect('/auth/login');
 }
 
-module.exports = router;
+export default router;

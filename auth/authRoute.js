@@ -1,47 +1,61 @@
-const express = require("express");
-const passport = require("passport");
-const router = express.Router();
+import { Router } from "express";
+import passport from "passport";
+import bcrypt from 'bcrypt';
+import userModel from '../models/userModel.js';
+const router = Router();
 
-router.get(
-  "/google",
-  passport.authenticate("google", {
-    keepSessionInfo: true,
-    scope: [
-      "https://www.googleapis.com/auth/plus.login",
-      "https://www.googleapis.com/auth/userinfo.email",
-    ],
-  })
-);
-
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    scope: ['profile', 'email'],
-    keepSessionInfo: true,
-    failureRedirect: "/",
-  }),
-  (req, res) => {
-    res.redirect(req.session.returnTo);
-  }
-);
-
+// Render the login page
 router.get("/login", (req, res) => {
   res.render("login");
 });
 
+// Handle the login form submission
+router.post("/login", passport.authenticate("local", {
+  failureRedirect: "/auth/login",
+  keepSessionInfo: true
+}), (req, res) => {
+  // Passport has already logged the user in!
+  const redirectTo = req.session.returnTo || "/";
+  delete req.session.returnTo;
+  res.redirect(redirectTo);
+});
+
+
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    // Destroy the session to clear the session cookie
-    req.session.destroy((sessionErr) => {
-      if (sessionErr) {
-        return res.status(500).json({ message: 'Error destroying session' });
-      }
+    if (err) return next(err);
+    req.session.destroy(() => {
+      res.redirect("/");
     });
-    res.redirect("/");
   });
 });
 
-module.exports = router;
+// Show Register Page
+router.get("/register", (req, res) => {
+  res.render("register"); // Create a register.ejs file
+});
+
+// Handle Register Logic
+router.post("/register", async (req, res) => {
+  try {
+    const { email, password, firstName, lastName, displayName } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = [
+      firstName,
+      lastName,
+      email,
+      hashedPassword // Save the HASH, not the plain text!
+    ];
+
+    await userModel.createNewUser(newUser);
+
+    res.redirect("/auth/login");
+  } catch (err) {
+    console.error(err);
+    res.redirect("/auth/register");
+  }
+});
+
+export default router;

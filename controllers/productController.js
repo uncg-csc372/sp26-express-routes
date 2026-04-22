@@ -1,5 +1,5 @@
 "use strict";
-const model = require('../models/productModel');
+import model from '../models/productModel.js';
 
 async function fetchAllProducts(req, res) {
     try {
@@ -88,7 +88,7 @@ async function createProduct(req, res) {
     }
 }
 
-module.exports = {
+export default {
     fetchAllProducts,
     fetchProductById,
     fetchProductsByType,
